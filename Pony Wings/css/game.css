@@ -12,6 +12,21 @@ canvas, #background, #screen, #screen>div {
 	position:absolute;
 	top:0;
 	left:0;
+	z-level:1;
+}
+#boutique {
+	display: none;
+	width:480px;
+	height:300px;
+	position:absolute;
+	top:0;
+	left:0;
+	background-color:#000;
+	opacity:0.5;
+	filter:alpha(opacity=50);
+	font-size:16px; 
+	color:#FFFFFF;
+	z-level:2;
 }
 img {
 	border:0;

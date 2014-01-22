@@ -93,18 +93,16 @@
 			   		<span style="position:absolute;right:0;bottom:0;margin:10px" id="points">0</span>
 			   </div>
 			   
-			   <div id="boutique" style="display:none; position:absolute; top:150px; left:150px; font-size:16px; color:#FFFFFF;">
-				<div id="shade2"></div>
-				    <div id="container2" style="background-color:#888888; opacity=0.5;">
-					Boutique <br>
-					Acheter du temps <br>
-					<button onClick="HUD.buyTime (0.1); ">10 sec.</button>
-					<button onClick="HUD.buyTime (0.3);">30 sec.</button>
-					<button onClick="HUD.buyTime (0.6);">1 min.</button> <br>
-					Acheter une rocket <br>
-					<button onClick=""></button> <br>
-					<button onClick="menu.exitBoutique();">Quitter la Boutique</button>
-				    </div>
+			   <div id="boutique">
+				<div id="container2" style="position:absolute; top:50px; left:100px; background-color:#888888; opacity=0.9;">
+				    <h3 align="center">Boutique</h3>
+				    Acheter du temps :<br>
+				    <button onClick="HUD.buyTime (0.1); ">10 sec.</button>
+				    <button onClick="HUD.buyTime (0.3);">30 sec.</button>
+				    <button onClick="HUD.buyTime (0.6);">1 min.</button> <br>
+				    TODO: Acheter des turbos :<br>
+				    <button onClick="">1</button> <button onClick="">2</button> <button onClick="">5</button>
+				    <div align="center"><button onClick="menu.exitBoutique();">Quitter la Boutique</button></div>
 				</div>
 			   </div>
 			   
