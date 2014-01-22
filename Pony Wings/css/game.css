@@ -63,7 +63,8 @@ img {
 	margin-left:5px;
 	background-color:#555;
 	float:right;
-	background:url('../art/Buttons.png');
+	/*background:url('../art/Buttons.png');*/
+	background:url('../art/Buttons2.png');
 	cursor: pointer;
 }
 .hud_button#breset {
@@ -81,6 +82,15 @@ img {
 .hud_button#bpause.toggle {
 	background-position: -30px 0;
 }
+
+.hud_button#bboutique {
+	background-position: -150px 0;
+}
+.hud_button#bboutique.toggle {
+	background-position: -180px 0;
+}
+
+
 #gameover {
 	position:relative;
 }
