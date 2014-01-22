@@ -86,6 +86,10 @@ menu.toggleBoutique = function(){
 menu.enterBoutique = function(){
 	if(!menu.isGameOver){
 		if(!menu.isInBoutique){
+			if (menu.isPaused){
+				menu.isPaused = false;
+				document.getElementById("screen").style.display = "none";
+			}
 			document.getElementById("boutique").style.display = "block";
 			//document.getElementById("screen").style.display = "block";
 			document.getElementById('instructions').style.display='none';
