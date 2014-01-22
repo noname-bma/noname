@@ -4,6 +4,7 @@
 <html itemscope itemtype="http://schema.org/Game">
 
    <head>  
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8"/>   
    
      <!-- SOME METAINFO  -->
      <title>PONY WINGS</title>
@@ -57,18 +58,28 @@
 	   	   <div id="game_container" style='display:none;'>
 		   	   <canvas id="game" width="480" height="300"> </canvas>
 			   <canvas id="hud" width="480" height="300"></canvas>
-			   <div id='instructions' style='position:relative;opacity:1'>
+			   <div id='instructions' style='position:relative; opacity:1'>
 					<div class='title' style="position:absolute;top:20px;left:20px;"></div>
-					<div style='position:absolute;top:100px;left:200px;width:270px;height:100px;color:#E84298;'>
+					<!-- <div style='position:absolute;top:100px;left:200px;width:270px;height:100px;color:#E84298;'>
 				   		Scootaloo has always dreamed of flying, but her wings are too tiny.
 				   		<br><br>
 				   		Rollerscoot across hills to fly, catch speed-boosting parasprites, and outrace the sunset!
 				   		<br><br>
 				   		Press Screen or S to Scoot
-			   		</div>
+			   		</div> -->
+					<div id="MainMenu" style='position:absolute; top:100px; left:200px; width:270px; height:100px; font-size:28px; color:#E84298;'>
+					    <div id="MainMenuPlay" onClick="PWG.pauseGame(); PWG.init(); PWG.startTheGame();" onTouchStart="PWG.pauseGame(); PWG.init();  PWG.startTheGame();">Jouer</div>
+					    <div id="MainMenuScores">Scores</div>
+					    <div id="MainMenuBoutique">Boutique</div>
+					    <div id="MainMenuOptions">Options</div>
+					    <div id="MainMenuQuit">Quitter</div>
+					</div>
 			   </div>
 			   <div id="hud_screen">
 					<div style="position:absolute;top:0;right:0;margin:10px;width:150px">
+						<div class="hud_button" id="bboutique" 
+								ontouchstart='menu.toggleBoutique();'
+								onclick='menu.toggleBoutique();'></div>
 						<div class="hud_button" id="breset" 
 								ontouchstart="if(pony.startMoving){PWG.pauseGame();PWG.init();PWG.startTheGame();}" 
 								onclick='if(pony.startMoving){PWG.pauseGame();PWG.init();PWG.startTheGame();}'></div>
@@ -81,6 +92,22 @@
 					</div>
 			   		<span style="position:absolute;right:0;bottom:0;margin:10px" id="points">0</span>
 			   </div>
+			   
+			   <div id="boutique" style="display:none; position:absolute; top:150px; left:150px; font-size:16px; color:#FFFFFF;">
+				<div id="shade2"></div>
+				    <div id="container2" style="background-color:#888888; opacity=0.5;">
+					Boutique <br>
+					Acheter du temps <br>
+					<button onClick="HUD.buyTime (0.1); ">10 sec.</button>
+					<button onClick="HUD.buyTime (0.3);">30 sec.</button>
+					<button onClick="HUD.buyTime (0.6);">1 min.</button> <br>
+					Acheter une rocket <br>
+					<button onClick=""></button> <br>
+					<button onClick="menu.exitBoutique();">Quitter la Boutique</button>
+				    </div>
+				</div>
+			   </div>
+			   
 		   	   <div id="screen">
 		   	   		<div id="shade"></div>
 		   	   		<div id="container">

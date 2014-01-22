@@ -12,6 +12,9 @@ HUD.init = function(){
 }
 
 
+
+
+
 HUD.draw = function(){
 	
 	hudCTX.clearRect(0, 0, 960, 640); // Clear the canvas
@@ -107,4 +110,12 @@ HUD.printStats = function(){
 	document.getElementById('stats_altitude').innerHTML = Math.ceil(HUD.maxalt*0.01);
 	document.getElementById('stats_velocity').innerHTML = Math.ceil(3.6*60*HUD.groundvel*0.01);
 	document.getElementById('stats_parasprites').innerHTML = HUD.parasprites;
+}
+
+HUD.buyTime =function(time){
+    HUD.timer += time;
+    if (HUD.timer > 1.0){
+	HUD.timer = 1.0;
+    }
+    HUD.draw ();
 }

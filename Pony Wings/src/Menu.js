@@ -3,6 +3,7 @@ var menu = {};
 menu.init = function(){
 	menu.isPaused = false;
 	menu.isGameOver = false;
+	menu.isInBoutique = false;
 	document.getElementById("screen").style.display = "none";
 	document.getElementById("pause").style.display = "block";
 	document.getElementById("gameover").style.display = "none";
@@ -20,7 +21,7 @@ menu.play = function(){
 	document.getElementById("bpause").className = "hud_button";
 }
 menu.pause = function(){
-	if(!menu.isGameOver){
+	if(!menu.isGameOver && !menu.isInBoutique){
 		if(!menu.isPaused){
 			document.getElementById("screen").style.display = "block";
 			document.getElementById('instructions').style.display='none';
@@ -33,7 +34,7 @@ menu.pause = function(){
 menu.togglePause = function(){
 	if(menu.isGameOver){
 		PWG.pauseGame();PWG.init();PWG.startTheGame();
-	}else{
+	} else if (!menu.isInBoutique) {
 		if(menu.isPaused){
 			menu.play();
 		}else{
@@ -68,4 +69,43 @@ menu.gameover = function(){
 	document.getElementById("pause").style.display = "none";
 	PWG.pauseGame();
 	HUD.printStats();
+}
+
+menu.toggleBoutique = function(){
+	if(menu.isGameOver){
+		PWG.pauseGame(); PWG.init(); PWG.startTheGame();
+	}else{
+		if(menu.isInBoutique){
+			menu.exitBoutique();
+		}else{
+			menu.enterBoutique();
+		}
+	}
+}
+
+menu.enterBoutique = function(){
+	if(!menu.isGameOver){
+		if(!menu.isInBoutique){
+			document.getElementById("boutique").style.display = "block";
+			//document.getElementById("screen").style.display = "block";
+			document.getElementById('instructions').style.display='none';
+			PWG.pauseGame();
+		}
+		menu.isInBoutique = true;
+	}
+	document.getElementById("bboutique").className = "hud_button toggle";
+}
+
+
+menu.exitBoutique = function(){
+	if(!menu.isGameOver){
+		if(menu.isInBoutique){
+			document.getElementById("boutique").style.display = "none";
+			//document.getElementById("screen").style.display = "none";
+			document.getElementById('instructions').style.display='block';
+			PWG.playGame();
+		}
+		menu.isInBoutique = false;
+	}
+	document.getElementById("bboutique").className = "hud_button";
 }
