@@ -67,7 +67,7 @@ pony.enterFrame = function()
 	// KEY
 	pony.keyDown = kCont.down;
 	if(!pony.startMoving){
-		pony.startMoving = pony.keyDown; // NdVianney : permet de commencer le jeu en touchant l'écran
+		//pony.startMoving = pony.keyDown; // NdVianney : permet de commencer le jeu en touchant l'écran
 		// Play music if not mobile and upon starting game
 		if(pony.keyDown){
 			if( !gameIsMobile && music.paused ){
