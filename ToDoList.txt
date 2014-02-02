@@ -9,8 +9,9 @@
 * trouver des images pour les bonus
 * ajouter un inventaire pour le joueur qui contient tous ses bonus
 * le joueur garde l'inventaire de partie en partie
+* qd on est dans le main menu, le poney se raidit quand on clique sur les entrées du menu: est-ce désirable?
 
 *************
 * Bug List: *
 *************
-* le jeu se met en pause même quand on est dans le menu principal
+* qd on est dans le menu principal, si la fenêtre du jeu perd le focus, le jeu se met en pause (ce qui n'est pas nécessaire).
