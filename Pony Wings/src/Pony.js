@@ -7,7 +7,7 @@ pony.init = function(){
 	pony.coord.x = -10;
 	pony.coord.y = -201;
 	pony.vel.x = 1.9;
-	pony.vel.y = -0.9;
+	pony.vel.y = -0.9;//*parseFloat (document.getElementById("ChuteSpeed").innerHTML); // TODO: mettre ailleurs, là c'est plutôt la gravité
 	pony.rotation = 0;
 	pony.width = pony.height = 200;
 	pony.frame = 0;
@@ -16,6 +16,10 @@ pony.init = function(){
 	pony.touchGround2 = true;
 	pony.touchGround3 = false;
 	pony.keyDown = false;
+	
+	// Nouveaux Bonus (NdV):
+	pony.turboMode = false;
+	pony.turboPower = 0;
 }
 pony.startMoving = false;
 
@@ -88,6 +92,15 @@ pony.enterFrame = function()
 	
 	if(pony.startMoving){
 		
+		// Prise en compte du bonus Turbo (NdV):
+		if (pony.turboMode) {
+			pony.turboPower -= 1;
+			if (pony.turboPower <= 0){
+				pony.turboMode  = false;
+				pony.turboPower = 0;
+			}
+		}
+		
 		// Velocity Addition
 		if(HUD.timer<=0){
 			pony.vel.x*=0.98;
@@ -118,7 +131,8 @@ pony.enterFrame = function()
 		}
 		
 		// Move coords
-		pony.coord.x += pony.vel.x;
+		// AVEC LE TURBO:
+		pony.coord.x += pony.vel.x + pony.turboPower;
 		var terrY = terrain.funct(pony.coord.x);
 		if(pony.touchGround3){
 			pony.coord.y += terrY;
@@ -163,4 +177,10 @@ pony.enterFrame = function()
 		}
 	
 	}
+}
+
+pony.buyTurbo = function (n)
+{
+	pony.turboMode  = true;
+	pony.turboPower = n;
 }
