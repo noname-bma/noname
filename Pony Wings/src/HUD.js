@@ -112,14 +112,3 @@ HUD.printStats = function(){
 	document.getElementById('stats_parasprites').innerHTML = HUD.parasprites;
 }
 
-HUD.buyTime =function(time){
-    // TODO: procéder à l'achat effectif BEGIN
-    // c'est ici qu'on décide du prix, qu'on se connecte au CAStore, ...
-    //CAStore.buy (10*time);
-    // END 
-    HUD.timer += time;
-    if (HUD.timer > 1.0){
-	HUD.timer = 1.0;
-    } 
-    HUD.draw ();
-}
