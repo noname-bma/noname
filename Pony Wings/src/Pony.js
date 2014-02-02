@@ -6,7 +6,7 @@ pony.init = function(){
 	pony.vel = new Object();
 	pony.coord.x = -10;
 	pony.coord.y = -201;
-	pony.vel.x = 1.9;
+	pony.vel.x = 1.9*(parseInt (document.getElementById("GameSpeed").innerHTML)/100);
 	pony.vel.y = -0.9;//*parseFloat (document.getElementById("ChuteSpeed").innerHTML); // TODO: mettre ailleurs, là c'est plutôt la gravité
 	pony.rotation = 0;
 	pony.width = pony.height = 200;
