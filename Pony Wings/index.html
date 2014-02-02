@@ -77,7 +77,10 @@
 					</div>
 			   </div>
 			   <div id="hud_screen">
-					<div style="position:absolute;top:0;right:0;margin:10px;width:150px">
+					<div style="position:absolute;top:0;right:0;margin:10px;width:180px">
+						<div class="hud_button" id="breset2" 
+								ontouchstart="if(pony.startMoving){PWG.pauseGame();PWG.init();PWG.startTheGame();}" 
+								onclick='if(pony.startMoving){PWG.pauseGame();PWG.init();PWG.startTheGame();}'></div>					    
 						<div class="hud_button" id="bboutique" 
 								ontouchstart='menu.toggleBoutique();'
 								onclick='menu.toggleBoutique();'></div>

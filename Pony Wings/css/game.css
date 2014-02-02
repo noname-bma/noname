@@ -85,6 +85,9 @@ img {
 .hud_button#breset {
 	background-position: -120px 0;
 }
+.hud_button#breset2 {
+	background-position: -120px 0;
+}
 .hud_button#bmusic {
 	background-position: -60px 0;
 }
