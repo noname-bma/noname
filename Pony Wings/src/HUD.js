@@ -115,7 +115,7 @@ HUD.printStats = function(){
 HUD.buyTime =function(time){
     // TODO: procéder à l'achat effectif BEGIN
     // c'est ici qu'on décide du prix, qu'on se connecte au CAStore, ...
-    CAStore.buy (10*time);
+    //CAStore.buy (10*time);
     // END 
     HUD.timer += time;
     if (HUD.timer > 1.0){
