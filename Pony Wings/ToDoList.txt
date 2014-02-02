@@ -1,0 +1,20 @@
+**************
+* ToDo LISTS *
+**************
+
+*****************
+* Feature List: *
+*****************
+* rajouter des bonus 
+* trouver des images pour les bonus
+* ajouter un inventaire pour le joueur qui contient tous ses bonus
+* le joueur garde l'inventaire de partie en partie
+* qd on est dans le main menu, le poney se raidit quand on clique sur les entrées du menu: est-ce désirable?
+* permettre de changer la force de la gravité
+* permettre de modifier la force du piqué de la bestiole quand elle retombe vers le sol (menu options)
+
+*************
+* Bug List: *
+*************
+* qd on est dans le menu principal, si la fenêtre du jeu perd le focus, le jeu se met en pause (ce qui n'est pas nécessaire).
+* utilisation du turbo : mauvaise rotation du poney
