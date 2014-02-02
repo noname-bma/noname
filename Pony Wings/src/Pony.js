@@ -3,11 +3,13 @@ pony.image = new Image(800,600);
 
 pony.init = function(){
 	pony.coord = new Object();
+	pony.initial = new Object(); pony.initial.vel = new Object();
 	pony.vel = new Object();
 	pony.coord.x = -10;
 	pony.coord.y = -201;
-	pony.vel.x = 1.9;
-	pony.vel.y = -0.9;//*parseFloat (document.getElementById("ChuteSpeed").innerHTML); // TODO: mettre ailleurs, là c'est plutôt la gravité
+	pony.initial.vel.x = 1.9*parseFloat(document.getElementById("GameSpeed").innerHTML)*0.01;
+	pony.initial.vel.y = -0.9;//*parseFloat (document.getElementById("ChuteSpeed").innerHTML); // TODO: mettre ailleurs, là c'est plutôt la gravité
+	pony.vel.x = pony.initial.vel.x; pony.vel.y = pony.initial.vel.y;
 	pony.rotation = 0;
 	pony.width = pony.height = 200;
 	pony.frame = 0;
@@ -20,8 +22,10 @@ pony.init = function(){
 	// Nouveaux Bonus (NdV):
 	pony.turbos = 10;
 	pony.chronos = 10;
+	pony.parachutes = 10;
 	pony.synchDataM2V ();
 	
+	pony.parachuteMode = false;
 	pony.turboMode = false;
 	pony.turboPower = 0;
 }
@@ -30,6 +34,11 @@ pony.startMoving = false;
 pony.synchDataM2V = function () {
 	document.getElementById ("turboCount").innerHTML  = pony.turbos;
 	document.getElementById ("chronoCount").innerHTML = pony.chronos;
+	document.getElementById ("parachuteCount").innerHTML = pony.parachutes;
+	
+	document.getElementById ("turboCountMM").innerHTML  = pony.turbos;
+	document.getElementById ("chronoCountMM").innerHTML = pony.chronos;
+	document.getElementById ("parachuteCountMM").innerHTML = pony.parachutes;
 }
 
 pony.useChrono = function () {
@@ -42,10 +51,19 @@ pony.useChrono = function () {
 	} 
 }
 
+pony.useParachute  = function () {
+	if (pony.parachutes > 0) {
+		pony.parachuteMode  = true;
+		pony.parachutes -= 1;
+		pony.synchDataM2V ();
+	}
+}
+
+
 pony.useTurbo  = function () {
 	if (pony.turbos > 0) {
 		pony.turboMode  = true;
-		pony.turboPower = 50;	
+		pony.turboPower += 50;	
 		pony.turbos -= 1;
 		pony.synchDataM2V ();
 	}
@@ -98,10 +116,10 @@ pony.enterFrame = function()
 {
 	// KEY
 	pony.keyDown = kCont.down;
-	if(!pony.startMoving){
+	//if(!pony.startMoving){
 		//pony.startMoving = pony.keyDown; // NdVianney : permet de commencer le jeu en touchant l'écran
-		// Play music if not mobile and upon starting game
 		/*
+		// Play music if not mobile and upon starting game // Commented by Me
 		if(pony.keyDown){
 			if( !gameIsMobile && music.paused ){
 				//music.currentTime = 0;
@@ -109,7 +127,7 @@ pony.enterFrame = function()
 			}
 		}
 		*/
-	}
+	//}
 	
 	// FRAME
 	pony.frame += (2+pony.vel.x)/60;
@@ -120,14 +138,14 @@ pony.enterFrame = function()
 	
 	if(pony.startMoving){
 		
-		// Prise en compte du bonus Turbo (NdV):
+		//Begin: Prise en compte du bonus Turbo (NdV):
 		if (pony.turboMode) {
 			pony.turboPower -= 1;
 			if (pony.turboPower <= 0){
 				pony.turboMode  = false;
 				pony.turboPower = 0;
 			}
-		}
+		}//End.
 		
 		// Velocity Addition
 		if(HUD.timer<=0){
@@ -197,7 +215,7 @@ pony.enterFrame = function()
 			//pony.coord.y += pony.vel.y;
 		}
 		
-		pony.rotation = Math.atan2(pony.vel.y,pony.vel.x);
+		pony.rotation = Math.atan2(pony.vel.y,pony.vel.x + pony.turboPower);
 		if(pony.rotation>Math.PI*0.3){
 			pony.rotation*=3;
 			pony.rotation+=Math.PI*0.3;
@@ -207,8 +225,21 @@ pony.enterFrame = function()
 	}
 }
 
+pony.buyChrono = function (n)
+{
+	pony.chronos += n;
+	pony.synchDataM2V ();
+}
+
+pony.buyParachute = function (n)
+{
+	pony.parachutes += n;
+	pony.synchDataM2V ();
+}
+
+
 pony.buyTurbo = function (n)
 {
-	pony.turboMode  = true;
-	pony.turboPower = n;
+	pony.turbos += n;
+	pony.synchDataM2V ();
 }

@@ -137,4 +137,12 @@ menu.toggleLanguage = function () {
 	}
 }
 
-
+menu.toggleGameSpeed = function(){
+	var speed = parseInt(document.getElementById("GameSpeed").innerHTML);
+	if (speed >= 400) {
+		speed = 50;
+	} else {
+		speed = speed + 25;
+	}
+	document.getElementById("GameSpeed").innerHTML = speed;
+}
