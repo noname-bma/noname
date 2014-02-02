@@ -17,3 +17,4 @@
 * Bug List: *
 *************
 * qd on est dans le menu principal, si la fenêtre du jeu perd le focus, le jeu se met en pause (ce qui n'est pas nécessaire).
+* utilisation du turbo : mauvaise rotation du poney

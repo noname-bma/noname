@@ -18,10 +18,38 @@ pony.init = function(){
 	pony.keyDown = false;
 	
 	// Nouveaux Bonus (NdV):
+	pony.turbos = 10;
+	pony.chronos = 10;
+	pony.synchDataM2V ();
+	
 	pony.turboMode = false;
 	pony.turboPower = 0;
 }
 pony.startMoving = false;
+
+pony.synchDataM2V = function () {
+	document.getElementById ("turboCount").innerHTML  = pony.turbos;
+	document.getElementById ("chronoCount").innerHTML = pony.chronos;
+}
+
+pony.useChrono = function () {
+	if (pony.chronos > 0) {
+		HUD.timer += 0.1;
+		if (HUD.timer > 1.0){
+			HUD.timer = 1.0;
+		} pony.chronos -= 1;	
+		pony.synchDataM2V ();
+	} 
+}
+
+pony.useTurbo  = function () {
+	if (pony.turbos > 0) {
+		pony.turboMode  = true;
+		pony.turboPower = 50;	
+		pony.turbos -= 1;
+		pony.synchDataM2V ();
+	}
+}
 
 pony.draw = function()
 {
