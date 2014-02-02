@@ -124,4 +124,17 @@ menu.exitFromOptionMenu = function () {
 	document.getElementById('OptionMenu').style.display = "none";
 }
 
+menu.toggleLanguage = function () {
+	switch (document.getElementById("OptionMenuLanguageName").innerHTML){
+		case "Français":
+			document.getElementById("OptionMenuLanguageName").innerHTML = "English";
+			break;
+		case "English":
+			document.getElementById("OptionMenuLanguageName").innerHTML = "Français";
+			break;
+		default:
+			break;
+	}
+}
+
 
