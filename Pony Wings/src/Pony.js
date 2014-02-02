@@ -69,12 +69,14 @@ pony.enterFrame = function()
 	if(!pony.startMoving){
 		//pony.startMoving = pony.keyDown; // NdVianney : permet de commencer le jeu en touchant l'écran
 		// Play music if not mobile and upon starting game
+		/*
 		if(pony.keyDown){
 			if( !gameIsMobile && music.paused ){
 				//music.currentTime = 0;
 				menu.toggleAudio();
 			}
 		}
+		*/
 	}
 	
 	// FRAME
