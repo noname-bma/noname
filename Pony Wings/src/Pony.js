@@ -210,6 +210,11 @@ pony.enterFrame = function()
 	}
 }
 
+pony.buyChrono = function (n)
+{
+	pony.chronos += n;
+}
+
 pony.buyTurbo = function (n)
 {
 	pony.turbos += n;
