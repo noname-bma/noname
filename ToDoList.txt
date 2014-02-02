@@ -1,0 +1,16 @@
+**************
+* ToDo LISTS *
+**************
+
+*****************
+* Feature List: *
+*****************
+* rajouter des bonus 
+* trouver des images pour les bonus
+* ajouter un inventaire pour le joueur qui contient tous ses bonus
+* le joueur garde l'inventaire de partie en partie
+
+*************
+* Bug List: *
+*************
+* le jeu se met en pause même quand on est dans le menu principal
