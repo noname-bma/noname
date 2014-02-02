@@ -30,6 +30,9 @@ pony.startMoving = false;
 pony.synchDataM2V = function () {
 	document.getElementById ("turboCount").innerHTML  = pony.turbos;
 	document.getElementById ("chronoCount").innerHTML = pony.chronos;
+	
+	document.getElementById ("turboCountMM").innerHTML  = pony.turbos;
+	document.getElementById ("chronoCountMM").innerHTML = pony.chronos;
 }
 
 pony.useChrono = function () {
@@ -209,6 +212,5 @@ pony.enterFrame = function()
 
 pony.buyTurbo = function (n)
 {
-	pony.turboMode  = true;
-	pony.turboPower = n;
+	pony.turbos += n;
 }
