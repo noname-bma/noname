@@ -113,3 +113,15 @@ menu.exitBoutique = function(){
 	}
 	document.getElementById("bboutique").className = "hud_button";
 }
+
+menu.showOptionMenu = function () {
+	document.getElementById("MainMenu").style.display = "none";
+	document.getElementById('OptionMenu').style.display = 'block';
+}
+
+menu.exitFromOptionMenu = function () {
+	document.getElementById("MainMenu").style.display = 'block';
+	document.getElementById('OptionMenu').style.display = "none";
+}
+
+
