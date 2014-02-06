@@ -227,7 +227,12 @@ pony.enterFrame = function()
 
 
 pony.buyMoney = function (n) {
-	var onCAStoreInitialized = function(err, caStore){
+	if (caStore == null){
+		caStore = new CAStore (CONSUMER_KEY, CONSUMER_SECRET,
+			'http://localhost:8081/callback_url.html'/* Callback url */,
+			'http://localhost:8080/' /* Proxy server address */
+		); 
+	} var onCAStoreInitialized = function(err, caStore){
 		document.getElementById("CAStoreScreen").hide();
 		document.getElementById("CAStoreScreen").display = "none";
 		if (err)
