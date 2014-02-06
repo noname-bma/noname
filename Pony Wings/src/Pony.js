@@ -229,11 +229,13 @@ pony.enterFrame = function()
 pony.buyMoney = function (n) {
 	var onCAStoreInitialized = function(err, caStore){
 		document.getElementById("CAStoreScreen").hide();
+		document.getElementById("CAStoreScreen").display = "none";
 		if (err)
 			return console.log('Error initializing CAStore', err);
 		sessionStore.save(caStore.export());
 		getBAM();
 	};
+	document.getElementById("CAStoreScreen").display = "block";
 	caStore.init(
 		document.getElementById("CAStoreScreen"), /* Container for authentication iframe */
 		onCAStoreInitialized);
