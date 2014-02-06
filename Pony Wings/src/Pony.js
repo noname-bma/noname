@@ -225,6 +225,21 @@ pony.enterFrame = function()
 	}
 }
 
+
+pony.buyMoney = function (n) {
+	var onCAStoreInitialized = function(err, caStore){
+		document.getElementById("CAStoreScreen").hide();
+		if (err)
+			return console.log('Error initializing CAStore', err);
+		sessionStore.save(caStore.export());
+		getBAM();
+	};
+	caStore.init(
+		document.getElementById("CAStoreScreen"), /* Container for authentication iframe */
+		onCAStoreInitialized);
+	getBAM();
+}
+
 pony.buyChrono = function (n)
 {
 	pony.chronos += n;
