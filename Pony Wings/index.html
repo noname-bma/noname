@@ -74,7 +74,7 @@
 					    <div id="MainMenuBoutique" onClick="document.getElementById('BoutiqueMenu').style.display = 'block'; document.getElementById('MainMenu').style.display = 'none';" onTouchStart="document.getElementById('BoutiqueMenu').style.display = 'block'; document.getElementById('MainMenu').style.display = 'none';">Boutique</div>
 					    <div id="MainMenuOptions" onClick="menu.showOptionMenu ();" onTouchStart="menu.showOptionMenu ();">Options</div>
 					    <div id="MainMenuQuit">Quitter</div>
-					    <div id="MainMenuTestCAStore"><a href="src/testCAStore.html">Test CAStore</a></div>
+					    <div id="MainMenuTestCAStore" onClick="pony.buyMoney(5);">Test CAStore</div>
 					</div>
 					<!-- Sous-Menu des Options -->
 					<div id="OptionMenu" style='position:absolute; top:100px; left:200px; width:270px; height:100px; font-size:20px; color:#E84298; display:none;'>
@@ -144,6 +144,9 @@
 				    <div align="center"><button onClick="menu.exitBoutique();">Quitter la Boutique</button></div>
 				</div>
 			   </div>
+			   
+			    <!-- Fenêtre de connexion au CAStore -->
+			   <div id="CAStoreScreen" style="z-index:10; display:'none'; width:300px; height:200px; position:fixed; top:'20px'; left:'20px';"></div>
 			   
 		   	   <div id="screen">
 		   	   		<div id="shade"></div>
@@ -242,9 +245,15 @@
 		   <script src="src/Pony.js"></script>
 		   <script src="src/Terrain.js"></script>
 		   <script src="src/TerrainProp.js"></script>
-     	   <script src="src/KeyCont.js"></script>
+		    <script src="src/KeyCont.js"></script>
 		   <script src="src/MusicLoop.js"></script>
 		   <script src="src/PonyWingsGame.js"></script>
+		    <!-- Required inclusion for CAStore -->
+		    <script type="text/javascript" src="CAStoreStarterKit-JS-master/www/js/lib/sha1.js"></script>
+		    <script type="text/javascript" src="CAStoreStarterKit-JS-master/www/js/lib/oauth.js"></script>
+		    <script type="text/javascript" src="CAStoreStarterKit-JS-master/www/js/lib/castore.js"></script>   
+		    <!-- Our CAStore -->
+		    <script src="src/OurCAStore.js"></script>
 		   <script type="text/javascript">
 		   		var enterFrameRate;
 		   		var drawFrameRate;
