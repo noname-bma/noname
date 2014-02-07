@@ -6,19 +6,18 @@ var STATIC_SERVER_PORT = 8081;
 
 express()
     .all('*', function(req, res, next){
-        console.log("ici 1");
+        console.log("Proxy server add Access-Control-Allow-Origin:* and Access-Control-Allow-Headers:Authorization headers.");
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "Authorization");
         next();
     })
     .options('*', function(req, res){
-        console.log("ici 2");
+        console.log("Proxy server manages locally OPTIONS CORS request to the CAStore webserver.");
         res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
         res.send(200);
-        //console.log("options http request goes by.");
     })
     .all('*', function(req, res){
-        console.log("ici 3");
+        console.log("Proxy server add Access-Control-Allow-Headers:X-Requested-With header and send the http request to CAStore webserver.");
         res.header("Access-Control-Allow-Headers", "X-Requested-With");
         proxy.web(req, res, { target: 'https://www.creditagricolestore.fr' });
     })

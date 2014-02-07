@@ -8,11 +8,23 @@
         <meta charset="utf-8" />
         
     </head>
-    C'est l'url de callback.
     
     <body>
-    
-    
+        C'est l'url de callback. <br>
+        Auto-fermeture dans <span id="rebours"></span> secondes.
+        
+        <script>
+            var rebours = 10;
+            var foo = function(){
+                if(rebours < 0){
+                    document.querySelector("#CAStoreScreenContainer").display = 'none';
+                } else {
+                    document.querySelector("#rebours").innerHTML = rebours;
+                } rebours -= 1;
+            }; 
+            setInterval (foo, 1000);
+        </script>
+        
     </body>
     
 </html>

@@ -233,14 +233,14 @@ pony.buyMoney = function (n) {
 			'http://localhost:8080/' /* Proxy server address */
 		); 
 	} var onCAStoreInitialized = function(err, caStore){
-		document.getElementById("CAStoreScreen").hide();
-		document.getElementById("CAStoreScreen").display = "none";
+		document.getElementById("CAStoreScreenContainer").hide();
+		document.getElementById("CAStoreScreenContainer").display = "none";
 		if (err)
 			return console.log('Error initializing CAStore', err);
 		sessionStore.save(caStore.export());
 		getBAM();
 	};
-	document.getElementById("CAStoreScreen").display = "block";
+	document.getElementById("CAStoreScreenContainer").display = "block";
 	caStore.init(
 		document.getElementById("CAStoreScreen"), /* Container for authentication iframe */
 		onCAStoreInitialized);
