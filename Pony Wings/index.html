@@ -39,14 +39,11 @@
    <body>
        
 	<script>
-	    // BODY element: document.documentElement.childNodes[1]
-	    var BODY = document.documentElement.childNodes[1];
-	    window.onkeydown = function(event){console.log("yo there"); if(gameIsLoaded){ kCont.keyDownHandler(event);}} ;
+	    window.onkeydown = function(event){if(gameIsLoaded){ kCont.keyDownHandler(event);}} ;
 	    window.onkeyup = function(event){if(gameIsLoaded){ kCont.keyUpHandler(event); }};
-	    window.onblur = function(event){if(gameIsLoaded){ kCont.down=false; menu.pause(); }};
+	    //window.onblur = function(event){if(gameIsLoaded){ kCont.down=false; menu.pause(); }};
 	    
 	    window.onmousedown = function(event){if(gameIsLoaded){ if(event.pageX<360||event.pageY>45){ kCont.down = true; } }};
-	    //window.addEventListener("mousedown", function(event){console.log("yo there mfer"); if(gameIsLoaded){ if(event.pageX<360||event.pageY>45){ kCont.down = true; } }}, false);
 	    window.onmouseup = function(event){if(gameIsLoaded){ kCont.down = false; }};
    		
 	    window.ontouchstart = function(event){
