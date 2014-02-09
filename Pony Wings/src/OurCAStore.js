@@ -106,7 +106,7 @@ ourCAStore.buyMoney6 = function (n) {
 ourCAStore.buyMoney7 = function (n) {
     //step 7: Demande de virement: 
     var route = 'castore-data-provider/authentification/virement?identifiantCompteBAM='+ourCAStore.BAM.id+"&identifiantCompteEmetteur="+ourCAStore.emitter+"&identifiantCompteBeneficiaire="+ourCAStore.recipient+"&montant="+6+"&libelleVirement=test"+"&oauth_token="+ourCAStore.caStore.oauth.token;
-    //$("#CAStoreScreenContainer").show(); //ToDo: pas besoin je crois, checker
+    $("#CAStoreScreenContainer").show(); //ToDo: besoin ou pas ???
     ourCAStore.caStore._createVirementIframe (route);
 }
     
