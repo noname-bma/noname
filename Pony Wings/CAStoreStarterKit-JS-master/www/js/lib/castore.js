@@ -141,14 +141,6 @@ var CAStore = (function(){
         }
     };
     
-    /**
-     * Une méthode pour cacher l'iframe utilisée pour s'authentifier.
-     * TODO: en a t on besoin? peut on faire autrement?
-     * Added by VD. 
-     **/
-    CAStore.prototype.hide = function (){
-        this.iframe.hide();
-    }
 
     CAStore.prototype._getAccessToken = function(callback){
         var self = this;

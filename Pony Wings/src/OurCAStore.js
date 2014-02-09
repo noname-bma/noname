@@ -25,6 +25,7 @@ ourCAStore.buyMoney = function (euros) {
 	document.getElementById("CAStoreScreenContainer").display = "block";
 	// step 2: authentification de l'user de l'app:
     ourCAStore.caStore.init (document.getElementById("CAStoreScreen")/* Container for authentication iframe */, ourCAStore.onCAStoreInitialized);
+    
 	// step X: 
     ourCAStore.getBAM();
     // step X: Récupération des comptes des émetteurs et bénéficiaires de virement
@@ -37,9 +38,9 @@ ourCAStore.buyMoney = function (euros) {
     
     
 ourCAStore.onCAStoreInitialized = function (err, caStore){
-    alert("ici bordel de shit");
+    //alert("ici bordel de shit");
     console.log("ici bordel de shit on essaie de cacher cette fenêtre de merde");
-    
+    /*
     document.getElementById("CAStoreScreenContainer").visibility = "hidden";
     document.getElementById("CAStoreScreenContainer").display = "none";
     
@@ -47,6 +48,10 @@ ourCAStore.onCAStoreInitialized = function (err, caStore){
     document.getElementById("CAStoreScreen").display = "none";
     
     ourCAStore.caStore.hide();
+    */
+    $("#CAStoreScreenContainer").hide();
+    $("#CAStoreScreen").hide();
+    
     
     if(err){
         return console.log('Error initializing CAStore', err);
@@ -57,6 +62,8 @@ ourCAStore.onCAStoreInitialized = function (err, caStore){
 ourCAStore.getBAM = function(){
     ourCAStore.caStore.session.GET('comptesBAM', onBAMObtained);
     function onBAMObtained(err, response){
+        if (err)
+            return console.log('Error getting BAM from CAStore', err);
         var account = response.data.compteBAMDTOs[0];
         alert('BAM!\nId:' + account.id + '\nAlias: ' + account.alias);
     }
