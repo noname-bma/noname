@@ -33,8 +33,7 @@ var CAStore = (function(){
             PUT: this.PUTWithSession.bind(this),
             DELETE: this.DELETEWithSession.bind(this)
         };
-        
-        this.iframe = null;
+
     }
 
     CAStore.prototype = {
@@ -115,8 +114,7 @@ var CAStore = (function(){
 
     CAStore.prototype._createAuthIframe = function(callback){
         var self = this;
-        this.iframe = document.createElement('iframe'); 
-        var iframe = this.iframe;
+        var iframe = document.createElement('iframe');
         iframe.setAttribute('src', 'https://www.creditagricolestore.fr/castore-data-provider/authentification/?0&oauth_token=' + this.request.token);
         iframe.addEventListener('load', onIframeLoaded);
         this.DOMElement.appendChild(iframe);
@@ -141,14 +139,6 @@ var CAStore = (function(){
         }
     };
     
-    /**
-     * Une méthode pour cacher l'iframe utilisée pour s'authentifier.
-     * TODO: en a t on besoin? peut on faire autrement?
-     * Added by VD. 
-     **/
-    CAStore.prototype.hide = function (){
-        this.iframe.hide();
-    }
 
     CAStore.prototype._getAccessToken = function(callback){
         var self = this;

@@ -10,7 +10,9 @@
     </head>
     
     <body>
+        
         C'est l'url de callback. <br>
+        <!--
         Auto-fermeture dans <span id="rebours"></span> secondes.
         
         <script>
@@ -20,7 +22,7 @@
                 if(rebours < 0){
                     document.querySelector("#CAStoreScreenContainer").display = 'none';
                     window.close ();
-                    ourCAStore.hide();
+                    ourCAStore.caStore.hide();
                     clearInterval (iid);
                 } else {
                     document.querySelector("#rebours").innerHTML = rebours;
@@ -29,6 +31,8 @@
             iid = setInterval (foo, 1000);
         </script>
         
+        <button onClick="window.close();">Close this!</button>
+        -->
     </body>
     
 </html>
