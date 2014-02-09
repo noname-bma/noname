@@ -6,13 +6,13 @@ var STATIC_SERVER_PORT = 8081;
 
 express()
     .all('*', function(req, res, next){
-        console.log("Proxy server add Access-Control-Allow-Origin:* and Access-Control-Allow-Headers:Authorization headers.");
+        console.log("Proxy add Access-Control-Allow-Origin:* and Access-Control-Allow-Headers:Authorization headers.");
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "Authorization");
         next();
     })
     .options('*', function(req, res){
-        console.log("Proxy server manages locally OPTIONS CORS request to the CAStore webserver.");
+        console.log("Proxy manages locally OPTIONS CORS request to the CAStore webserver.");
         res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
         res.send(200);
     })
