@@ -33,8 +33,7 @@ var CAStore = (function(){
             PUT: this.PUTWithSession.bind(this),
             DELETE: this.DELETEWithSession.bind(this)
         };
-        
-        this.iframe = null;
+
     }
 
     CAStore.prototype = {
@@ -115,8 +114,7 @@ var CAStore = (function(){
 
     CAStore.prototype._createAuthIframe = function(callback){
         var self = this;
-        this.iframe = document.createElement('iframe'); 
-        var iframe = this.iframe;
+        var iframe = document.createElement('iframe');
         iframe.setAttribute('src', 'https://www.creditagricolestore.fr/castore-data-provider/authentification/?0&oauth_token=' + this.request.token);
         iframe.addEventListener('load', onIframeLoaded);
         this.DOMElement.appendChild(iframe);
