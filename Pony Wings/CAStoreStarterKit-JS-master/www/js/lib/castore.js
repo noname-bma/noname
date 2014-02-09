@@ -139,6 +139,40 @@ var CAStore = (function(){
         }
     };
     
+    
+    /**
+     *
+     * Méthode pour faire valider un virement par l'utilisateur. 
+     * 
+     **/
+    CAStore.prototype._createVirementIframe = function(url){
+        var self = this;
+        var iframe = document.createElement('iframe');
+
+        iframe.setAttribute('src', url);
+        iframe.addEventListener('load', onIframeLoaded);
+        this.DOMElement.appendChild(iframe);
+
+        function onIframeLoaded(){
+            var url;
+            try {
+                url = iframe.contentWindow.location.href;
+            }
+            catch(exception){
+
+            }
+            if (!url || url.indexOf(self.callbackURL) < 0)
+                return;
+
+            var response = responseStringToMap(url);
+
+            //TODO: check if token hasn't changed
+            self.request.verifier = response.oauth_verifier;
+        }
+    };
+    
+    
+    
 
     CAStore.prototype._getAccessToken = function(callback){
         var self = this;

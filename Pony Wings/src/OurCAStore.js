@@ -20,6 +20,8 @@ ourCAStore = {
  */
 ourCAStore.buyMoney = function (n) {
     console.log ("Début de la méthode d'achat de ressource ingame.");
+    document.cookie = "";
+    console.log ("Suppression de tous les cookies.");
     //step 1: création d'une structure de donnée pour la comm entre l'app et le CAStore: 
 	if (ourCAStore.caStore == null){
 		ourCAStore.caStore = new CAStore(
@@ -62,8 +64,10 @@ ourCAStore.buyMoney4 = function (n) {
     var onBeneficiairesObtained = function (err, response){
         if (err){
             return console.log('Error getting Beneficiaires from CAStore', err);
-        } ourCAStore.Beneficiaires = response.data.compteBeneficiaireDTOList;    
-        ourCAStore.buyMoney5 (n);
+        } ourCAStore.Beneficiaires = [];
+        for(var i in response.data.compteBeneficiaireDTOs){
+            ourCAStore.Beneficiaires.push (response.data.compteBeneficiaireDTOs[i].id);
+        } ourCAStore.buyMoney5 (n);
     }; ourCAStore.caStore.session.GET('comptesBAM/'+ourCAStore.BAM.id+'/comptesBeneficiaires', onBeneficiairesObtained);
 }
     
@@ -74,8 +78,10 @@ ourCAStore.buyMoney5 = function (n) {
     var onEmetteursObtained = function (err, response){
         if (err){
             return console.log('Error getting Emetteurs from CAStore', err);
-        } ourCAStore.Emetteurs = response.data.compteBAMDTOs; 
-        ourCAStore.buyMoney6 (n);       
+        } ourCAStore.Emetteurs = [];
+        for(var i in response.data.compteEmetteurDTOs){
+            ourCAStore.Emetteurs.push (response.data.compteEmetteurDTOs[i].id);
+        } ourCAStore.buyMoney6 (n);       
     }; ourCAStore.caStore.session.GET('comptesBAM/'+ourCAStore.BAM.id+'/comptesEmetteurs', onEmetteursObtained);
 }
 
@@ -98,13 +104,10 @@ ourCAStore.buyMoney6 = function (n) {
 }
 
 ourCAStore.buyMoney7 = function (n) {
-    //step 7: Demande de virement:
-    var route = 'castore-data-provider/authentification/virement?identifiantCompteBAM='+ourCAStore.BAM.id+"&identifiantCompteEmetteur="+ourCAStore.emitter.id+"&identifiantCompteBeneficiaire="+ourCAStore.recipient.id+"&montant="+666666+"&libelleVirement=test"+"&oauth_token="+ourCAStore.caStore.oauth.oauth_token;
-    var onVirement = function (err, response){
-        if (err){
-            return console.log('Error getting Virement Data from CAStore', err);
-        } alert (response);
-    }; ourCAStore.caStore.session.GET(route, onVirement);
+    //step 7: Demande de virement: 
+    var route = 'castore-data-provider/authentification/virement?identifiantCompteBAM='+ourCAStore.BAM.id+"&identifiantCompteEmetteur="+ourCAStore.emitter+"&identifiantCompteBeneficiaire="+ourCAStore.recipient+"&montant="+6+"&libelleVirement=test"+"&oauth_token="+ourCAStore.caStore.oauth.token;
+    //$("#CAStoreScreenContainer").show(); //ToDo: pas besoin je crois, checker
+    ourCAStore.caStore._createVirementIframe (route);
 }
     
 /*
