@@ -17,6 +17,7 @@ express()
         res.send(200);
     })
     .all('*', function(req, res){
+        console.log("Proxy sees http request: "+req);
         console.log("Proxy server add Access-Control-Allow-Headers:X-Requested-With header and send the http request to CAStore webserver.");
         res.header("Access-Control-Allow-Headers", "X-Requested-With");
         proxy.web(req, res, { target: 'https://www.creditagricolestore.fr' });

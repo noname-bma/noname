@@ -58,8 +58,8 @@ var CAStore = (function(){
         function onRequestTokenObtained(err, self){
             if (err)
                 return (callback)? callback(err) : null;
-            //return self._createAuthIframe(onAuthenticationObtained);
-            return self._getAuthIframe(onAuthenticationObtained);
+            return self._createAuthIframe(onAuthenticationObtained);
+            //return self._getAuthIframe(onAuthenticationObtained);
         }
 
         function onAuthenticationObtained(err, self){
