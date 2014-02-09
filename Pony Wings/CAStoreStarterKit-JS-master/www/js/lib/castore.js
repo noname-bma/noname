@@ -59,6 +59,7 @@ var CAStore = (function(){
             if (err)
                 return (callback)? callback(err) : null;
             return self._createAuthIframe(onAuthenticationObtained);
+            //return self._getAuthIframe(onAuthenticationObtained);
         }
 
         function onAuthenticationObtained(err, self){
@@ -118,24 +119,42 @@ var CAStore = (function(){
         iframe.setAttribute('src', 'https://www.creditagricolestore.fr/castore-data-provider/authentification/?0&oauth_token=' + this.request.token);
         iframe.addEventListener('load', onIframeLoaded);
         this.DOMElement.appendChild(iframe);
-
+        //  //  //  //
         function onIframeLoaded(){
             var url;
             try {
                 url = iframe.contentWindow.location.href;
-            }
-            catch(exception){
-
-            }
-            if (!url || url.indexOf(self.callbackURL) < 0)
+            } catch(exception){}
+            if (!url || url.indexOf(self.callbackURL) < 0){
                 return;
-
-            var response = responseStringToMap(url);
-
+            } var response = responseStringToMap(url);
             //TODO: check if token hasn't changed
             self.request.verifier = response.oauth_verifier;
             if (callback)
                 callback(null, self);
+        }
+    };
+    
+    CAStore.prototype._getAuthIframe = function(callback){
+        var self = this;
+        var iframe = $("#authScreen")[0];
+        $("#authScreen").show ();
+        iframe.setAttribute('src', 'https://www.creditagricolestore.fr/castore-data-provider/authentification/?0&oauth_token=' + this.request.token);
+        iframe.addEventListener('load', onIframeLoaded);
+        //  //  //  //
+        function onIframeLoaded(){
+            var url;
+            try {
+                url = iframe.contentWindow.location.href;
+            } catch(exception){}
+            if (!url || url.indexOf(self.callbackURL) < 0){
+                return;
+            } var response = responseStringToMap(url);
+            //TODO: check if token hasn't changed
+            self.request.verifier = response.oauth_verifier;
+            if (callback){
+                callback(null, self);
+            }
         }
     };
     
@@ -148,29 +167,48 @@ var CAStore = (function(){
     CAStore.prototype._createVirementIframe = function(url){
         var self = this;
         var iframe = document.createElement('iframe');
-
         iframe.setAttribute('src', url);
         iframe.addEventListener('load', onIframeLoaded);
         this.DOMElement.appendChild(iframe);
-
+        //  //  //  //
         function onIframeLoaded(){
             var url;
             try {
                 url = iframe.contentWindow.location.href;
-            }
-            catch(exception){
-
-            }
-            if (!url || url.indexOf(self.callbackURL) < 0)
+            } catch(exception){}
+            if (!url || url.indexOf(self.callbackURL) < 0) {
                 return;
-
-            var response = responseStringToMap(url);
-
+            } var response = responseStringToMap(url);
             //TODO: check if token hasn't changed
             self.request.verifier = response.oauth_verifier;
         }
     };
     
+    
+    /**
+     *
+     * Méthode pour faire valider un virement par l'utilisateur. 
+     * 
+     **/
+    CAStore.prototype._getVirementIframe = function(url){
+        var self = this;
+        var iframe = $("#transferScreen")[0];  
+        $("#transferScreen").show(); 
+        iframe.setAttribute('src', url);
+        iframe.addEventListener('load', onIframeLoaded);
+        //  //  //  //
+        function onIframeLoaded(){
+            var url;
+            try {
+                url = iframe.contentWindow.location.href;
+            } catch(exception){}
+            if (!url || url.indexOf(self.callbackURL) < 0) {
+                return;
+            } var response = responseStringToMap(url);
+            //TODO: check if token hasn't changed
+            self.request.verifier = response.oauth_verifier;
+        }
+    };
     
     
 
