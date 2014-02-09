@@ -1,7 +1,7 @@
 $(function(){
 
-       var CONSUMER_KEY = "https://www.creditagricolestore.fr/castore-oauth/resources/1/oauth/consumer/4e3837f1549e4704b9dca604d396e872";
-        var CONSUMER_SECRET = "9075a183a60c415f9f677a74b0bb35a8";
+    var CONSUMER_KEY = "https://www.creditagricolestore.fr/castore-oauth/resources/1/oauth/consumer/4e3837f1549e4704b9dca604d396e872";
+    var CONSUMER_SECRET = "9075a183a60c415f9f677a74b0bb35a8";
 /*
     var CONSUMER_KEY = 'https://www.creditagricolestore.fr/castore-oauth/resources/1/oauth/consumer/cfa96c7a03e34bd2974d3c6579ed2391';
     var CONSUMER_SECRET = 'b1049093d2664041b2dc7e81e63208dc';

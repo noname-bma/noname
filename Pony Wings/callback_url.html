@@ -14,15 +14,19 @@
         Auto-fermeture dans <span id="rebours"></span> secondes.
         
         <script>
+            var iid = null;
             var rebours = 10;
             var foo = function(){
                 if(rebours < 0){
                     document.querySelector("#CAStoreScreenContainer").display = 'none';
+                    window.close ();
+                    ourCAStore.hide();
+                    clearInterval (iid);
                 } else {
                     document.querySelector("#rebours").innerHTML = rebours;
                 } rebours -= 1;
             }; 
-            setInterval (foo, 1000);
+            iid = setInterval (foo, 1000);
         </script>
         
     </body>
