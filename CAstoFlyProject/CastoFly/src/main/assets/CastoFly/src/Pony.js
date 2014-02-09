@@ -225,6 +225,29 @@ pony.enterFrame = function()
 	}
 }
 
+pony.login = function(){
+    var consumerKey = "https://www.creditagricolestore.fr/castore-oauth/resources/1/oauth/consumer/2d28a8b4655e481794e9d963eea248b8";
+    var consumerSecret = "37c23427850c4e29b77ba36bc4ecf7f6";
+    var callBackURI = "http://google.fr/";
+
+    var caStore = new CAStore(consumerKey, consumerSecret, callBackURI);
+    caStore.init($('#login_container')[0], onCaStoreInitialized);
+
+    function onCaStoreInitialized(){
+        $('#login_container').hide();
+        getBAM();
+    }
+
+    function getBAM(){
+        caStore.session.GET('comptesBAM', onBAMObtained);
+
+        function onBAMObtained(err, response){
+            var account = response.data.compteBAMDTOs[0];
+            alert('BAM!\nId:' + account.id + '\nAlias: ' + account.alias);
+        }
+    }
+};
+
 pony.buyChrono = function (n)
 {
 	pony.chronos += n;

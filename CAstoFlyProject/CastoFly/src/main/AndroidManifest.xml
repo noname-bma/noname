@@ -3,6 +3,7 @@
     package="com.orionsolution.castofly"
     android:versionCode="1"
     android:versionName="1.0" >
+    android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen"
 
     <uses-sdk
         android:minSdkVersion="7"
