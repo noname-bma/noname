@@ -227,24 +227,7 @@ pony.enterFrame = function()
 
 
 pony.buyMoney = function (n) {
-	if (caStore == null){
-		caStore = new CAStore (CONSUMER_KEY, CONSUMER_SECRET,
-			'http://localhost:8081/callback_url.html'/* Callback url */,
-			'http://localhost:8080/' /* Proxy server address */
-		); 
-	} var onCAStoreInitialized = function(err, caStore){
-		document.getElementById("CAStoreScreenContainer").hide();
-		document.getElementById("CAStoreScreenContainer").display = "none";
-		if (err)
-			return console.log('Error initializing CAStore', err);
-		sessionStore.save(caStore.export());
-		getBAM();
-	};
-	document.getElementById("CAStoreScreenContainer").display = "block";
-	caStore.init(
-		document.getElementById("CAStoreScreen"), /* Container for authentication iframe */
-		onCAStoreInitialized);
-	getBAM();
+	ourCAStore.buyMoney(n);
 }
 
 pony.buyChrono = function (n)

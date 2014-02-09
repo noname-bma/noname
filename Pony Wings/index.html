@@ -36,18 +36,23 @@
 		   
    </head>
    
-   <body
+   <body>
+       
+	<script>
+	    window.onkeydown = function(event){if(gameIsLoaded){ kCont.keyDownHandler(event);}} ;
+	    window.onkeyup = function(event){if(gameIsLoaded){ kCont.keyUpHandler(event); }};
+	    //window.onblur = function(event){if(gameIsLoaded){ kCont.down=false; menu.pause(); }};
+	    
+	    window.onmousedown = function(event){if(gameIsLoaded){ if(event.pageX<360||event.pageY>45){ kCont.down = true; } }};
+	    window.onmouseup = function(event){if(gameIsLoaded){ kCont.down = false; }};
    		
-   		onkeydown="if(gameIsLoaded){ kCont.keyDownHandler(event); }" 
-   		onkeyup="if(gameIsLoaded){ kCont.keyUpHandler(event); }"
-   		onblur="if(gameIsLoaded){ kCont.down=false; menu.pause(); }"
-		
-		onmousedown="if(gameIsLoaded){ if(event.pageX<360||event.pageY>45){ kCont.down = true; } }"
-		onmouseup="if(gameIsLoaded){ kCont.down = false; }"
-   		
-   		ontouchstart="if(gameIsLoaded){ if(event.touches[0].pageX<360||event.touches[0].pageY>45){ kCont.down = true; } } BlockMove(event);"
-		ontouchend="if(gameIsLoaded){ kCont.down = false; }" 
-		ontouchcancel="if(gameIsLoaded){ kCont.down = false; }"> 
+	    window.ontouchstart = function(event){
+		if(gameIsLoaded){ 
+		    if(event.touches[0].pageX<360||event.touches[0].pageY>45){ kCont.down = true; } 
+		}; BlockMove(event);
+	    }; window.ontouchend = function(event){if(gameIsLoaded){ kCont.down = false; }}; 
+	    window.ontouchcancel = function(event){if(gameIsLoaded){ kCont.down = false; }}; 
+	</script>
    		
 	   <div>   
 	   	   
@@ -213,7 +218,7 @@
 												<!-- GOOGLE -->
 												<div class='gotta_button social'>
 													<!-- Place this tag where you want the +1 button to render -->
-													<g:plusone size='tall'></g:plusone>
+													<!-- <g:plusone size='tall'></g:plusone> -->
 												</div>
 												
 												<!-- THE SITE -->
@@ -285,23 +290,25 @@
 <!-- SOCIAL NETWORKS -->
  
 <!-- Facebook -->
-<script>(function(d, s, id) {
+<script>/*(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
   if (d.getElementById(id)) {return;}
   js = d.createElement(s); js.id = id;
   js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
   fjs.parentNode.insertBefore(js, fjs);
-}(document, "script", "facebook-jssdk"));</script>
+}(document, "script", "facebook-jssdk"));*/</script>
 
 <!-- Twitter -->
+<!--
 <script type="text/javascript" src="//platform.twitter.com/widgets.js"></script>
+-->
 
 <!-- Google -->
-<script type="text/javascript">
+<script type="text/javascript">/*
   (function() {
     var po = document.createElement("script"); po.type = "text/javascript"; po.async = true;
     po.src = "https://apis.google.com/js/plusone.js";
     var s = document.getElementsByTagName("script")[0]; s.parentNode.insertBefore(po, s);
   })();
-</script>
+*/</script>
 
