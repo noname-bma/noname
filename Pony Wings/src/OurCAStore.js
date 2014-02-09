@@ -21,8 +21,7 @@ ourCAStore.buyMoney = function (euros) {
 		ourCAStore.caStore = new CAStore(ourCAStore.CONSUMER_KEY, ourCAStore.CONSUMER_SECRET, 
             'http://localhost:8081/callback_url.html',  /* Callback url */
             'http://localhost:8080/'                    /* Proxy server address */ ); 
-	} 
-	document.getElementById("CAStoreScreenContainer").display = "block";
+	} //document.getElementById("CAStoreScreenContainer").display = "block"; // NdV: à priori pas besoin, jQuery.hide do all the work.
 	// step 2: authentification de l'user de l'app:
     ourCAStore.caStore.init (document.getElementById("CAStoreScreen")/* Container for authentication iframe */, ourCAStore.onCAStoreInitialized);
     
