@@ -118,20 +118,15 @@ var CAStore = (function(){
         iframe.setAttribute('src', 'https://www.creditagricolestore.fr/castore-data-provider/authentification/?0&oauth_token=' + this.request.token);
         iframe.addEventListener('load', onIframeLoaded);
         this.DOMElement.appendChild(iframe);
-
+        //  //  //  //
         function onIframeLoaded(){
             var url;
             try {
                 url = iframe.contentWindow.location.href;
-            }
-            catch(exception){
-
-            }
-            if (!url || url.indexOf(self.callbackURL) < 0)
+            } catch(exception){}
+            if (!url || url.indexOf(self.callbackURL) < 0){
                 return;
-
-            var response = responseStringToMap(url);
-
+            } var response = responseStringToMap(url);
             //TODO: check if token hasn't changed
             self.request.verifier = response.oauth_verifier;
             if (callback)
@@ -148,24 +143,18 @@ var CAStore = (function(){
     CAStore.prototype._createVirementIframe = function(url){
         var self = this;
         var iframe = document.createElement('iframe');
-
         iframe.setAttribute('src', url);
         iframe.addEventListener('load', onIframeLoaded);
         this.DOMElement.appendChild(iframe);
-
+        //  //  //  //
         function onIframeLoaded(){
             var url;
             try {
                 url = iframe.contentWindow.location.href;
-            }
-            catch(exception){
-
-            }
-            if (!url || url.indexOf(self.callbackURL) < 0)
+            } catch(exception){}
+            if (!url || url.indexOf(self.callbackURL) < 0) {
                 return;
-
-            var response = responseStringToMap(url);
-
+            } var response = responseStringToMap(url);
             //TODO: check if token hasn't changed
             self.request.verifier = response.oauth_verifier;
         }
