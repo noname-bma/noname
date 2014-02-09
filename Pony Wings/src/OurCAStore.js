@@ -38,6 +38,7 @@ ourCAStore.buyMoney = function (n) {
             if (err){
                 return console.log('Error initializing CAStore comm object.', err);
             } $("#CAStoreScreenContainer").hide();
+            $("#authScreen").hide ();
             ourCAStore.buyMoney3 (n);
         }
     );
