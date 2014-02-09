@@ -83,11 +83,18 @@ ourCAStore.buyMoney5 = function (n) {
 ourCAStore.buyMoney6 = function (n) {
     //step 6: Saisie des paramètres de virements dans l'application (l'user choisit à qui l'argent doit être viré)
     if (ourCAStore.emitter == null){
-        ourCAStore.emitter = ourCAStore.Emetteurs[0];
+        if (ourCAStore.Emetteurs.length > 0) {
+            ourCAStore.emitter = ourCAStore.Emetteurs[0];
+        } else { 
+            return console.log ("Erreur il n'y pas de compte qui peut émettre de virements.");
+        } 
     } if (ourCAStore.recipient == null){
-        ourCAStore.recipient = ourCAStore.Beneficiaires[0];
-    }
-    ourCAStore.buyMoney7 (n);
+        if (ourCAStore.Beneficiaires.length > 0) {
+            ourCAStore.recipient = ourCAStore.Beneficiaires[0];
+        } else {
+            return console.log ("Erreur il n'y pas de compte qui peut recevoir de virements.");
+        } 
+    } ourCAStore.buyMoney7 (n);
 }
 
 ourCAStore.buyMoney7 = function (n) {
