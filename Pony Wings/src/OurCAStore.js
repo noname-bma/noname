@@ -39,9 +39,14 @@ ourCAStore.buyMoney = function (euros) {
 ourCAStore.onCAStoreInitialized = function (err, caStore){
     alert("ici bordel de shit");
     console.log("ici bordel de shit on essaie de cacher cette fenêtre de merde");
+    
+    document.getElementById("CAStoreScreenContainer").visibility = "hidden";
+    document.getElementById("CAStoreScreenContainer").display = "none";
+    
+    document.getElementById("CAStoreScreen").visibility = "hidden";
+    document.getElementById("CAStoreScreen").display = "none";
+    
     ourCAStore.caStore.hide();
-    //document.getElementById("CAStoreScreenContainer").hide();
-    //document.getElementById("CAStoreScreenContainer").display = "none";
     
     if(err){
         return console.log('Error initializing CAStore', err);
@@ -50,7 +55,7 @@ ourCAStore.onCAStoreInitialized = function (err, caStore){
 }
     
 ourCAStore.getBAM = function(){
-    caStore.session.GET('comptesBAM', onBAMObtained);
+    ourCAStore.caStore.session.GET('comptesBAM', onBAMObtained);
     function onBAMObtained(err, response){
         var account = response.data.compteBAMDTOs[0];
         alert('BAM!\nId:' + account.id + '\nAlias: ' + account.alias);
