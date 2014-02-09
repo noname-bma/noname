@@ -38,21 +38,7 @@ ourCAStore.buyMoney = function (euros) {
     
     
 ourCAStore.onCAStoreInitialized = function (err, caStore){
-    //alert("ici bordel de shit");
-    console.log("ici bordel de shit on essaie de cacher cette fenêtre de merde");
-    /*
-    document.getElementById("CAStoreScreenContainer").visibility = "hidden";
-    document.getElementById("CAStoreScreenContainer").display = "none";
-    
-    document.getElementById("CAStoreScreen").visibility = "hidden";
-    document.getElementById("CAStoreScreen").display = "none";
-    
-    ourCAStore.caStore.hide();
-    */
     $("#CAStoreScreenContainer").hide();
-    $("#CAStoreScreen").hide();
-    
-    
     if(err){
         return console.log('Error initializing CAStore', err);
     } sessionStore.save(caStore.export());
