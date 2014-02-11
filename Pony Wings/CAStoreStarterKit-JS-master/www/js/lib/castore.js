@@ -98,18 +98,27 @@ var CAStore = (function(){
         var self = this;
         var descriptor =  this.createDescriptor('POST',
             'castore-oauth/resources/1/oauth/get_request_token',
-            { oauth_callback: this.callbackURL });
-        this.sendRequest(this.createRequest(descriptor), null, onRequestTokenObtained);
+            {
+               oauth_callback: this.callbackURL,
+               oauth_token: null,
+               oauth_verifier: null
+            },
+            {
+                tokenSecret: null
+            });
+        var req = this.createRequest(descriptor);//, {"Content-Type":'application/x-www-form-urlencoded'});
+        this.sendRequest(req, null, onRequestTokenObtained);
 
         function onRequestTokenObtained(err, response){
-            if (err)
+            if (err){
                 return (callback)? callback(err) : null;
-
+            }
             response = responseStringToMap(response.response);
             self.request.token = response.oauth_token;
             self.request.secret = response.oauth_token_secret;
-            if (callback)
+            if (callback){
                 callback(null, self);
+            }
         }
     };
 
@@ -368,18 +377,44 @@ var CAStore = (function(){
     };
 
     CAStore.prototype.sendRequest = function(request, payload, callback){
-        request.onload = onRequestResponse;
+        addListeners();
         if (payload)
             request.setRequestHeader("Content-length", payload.length);
         request.send(payload);
 
+        function addListeners(){
+            request.addEventListener("load", onRequestResponse, false);
+            request.addEventListener("error", onRequestError, false);
+            request.addEventListener("abort", onRequestCanceled, false);
+        }
+
+        function removeListeners(){
+            request.removeEventListener("load", onRequestResponse);
+            request.removeEventListener("error", onRequestError);
+            request.removeEventListener("abort", onRequestCanceled);
+        }
+
         function onRequestResponse(event){
+            removeListeners();
             if (event.currentTarget.status >= 400)
                 return (callback)? callback(event.currentTarget) : null;
             if (callback)
                 callback(null, event.currentTarget);
         }
+
+        function onRequestError(event){
+            removeListeners();
+            if (callback)
+                callback('Request error', event.currentTarget);
+        }
+
+        function onRequestCanceled(event){
+            removeListeners();
+            if (callback)
+                callback('Request canceled', event.currentTarget);
+        }
     };
+
 
     function getAuthorizationHeader(parameters){
         return OAuth.getParameterList(parameters)
