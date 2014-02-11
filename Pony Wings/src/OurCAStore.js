@@ -8,6 +8,7 @@ ourCAStore = {
     CONSUMER_KEY: "https://www.creditagricolestore.fr/castore-oauth/resources/1/oauth/consumer/4e3837f1549e4704b9dca604d396e872",
     CONSUMER_SECRET: "9075a183a60c415f9f677a74b0bb35a8",
     BAMs: null,
+    BAM:null,
     emitter: null,
     recipient: null,
     
@@ -108,7 +109,7 @@ ourCAStore.buyMoney6 = function (n) {
 ourCAStore.buyMoney7 = function (n) {
     $("#CAStoreScreenContainer").show(); 
     ourCAStore.caStore.getTransferIFrame ({
-            BAMId: ourCAStore.caStore.session.BAMId,
+            BAMId: ourCAStore.BAM.id,
             emitterId: ourCAStore.emitter,
             receiverId: ourCAStore.recipient,
             title: 'Test transfer - ' + new Date().toLocaleString(),
