@@ -90,33 +90,27 @@ ourCAStore.buyMoney5 = function (n) {
 
 ourCAStore.buyMoney6 = function (n) {
     //step 6: Saisie des paramètres de virements dans l'application (l'user choisit à qui l'argent doit être viré)
-    if (ourCAStore.emitter == null){
-        if (ourCAStore.Emetteurs.length < 1) {
-            return console.log ("Erreur il n'y pas de compte qui peut émettre de virements.");
-        } else { 
-            if (ourCAStore.recipient == null){
-                if (ourCAStore.Beneficiaires.length < 1) {
-                    return console.log ("Erreur il n'y pas de compte qui peut recevoir de virements.");        
-                } else {
-                    var e=0, b=0;
-                    while (()&&()){
-                        ourCAStore.emitter = ourCAStore.Emetteurs[e];  
-                        ourCAStore.recipient = ourCAStore.Beneficiaires[b];
-                        e++;
-                        b++;
-                    }
-                    for(var e in ourCAStore.Emetteurs) for(var b in ourCAStore.Beneficiaires){
-                        
-                    }
-                }
-            ourCAStore.emitter = ourCAStore.Emetteurs[0];
-        } 
-    } 
-        
-            ourCAStore.recipient = ourCAStore.Beneficiaires[0];
+    if (ourCAStore.Emetteurs.length < 1) {
+        return console.log ("Erreur il n'y pas de compte qui peut émettre de virements.");
+    } else { 
+        if (ourCAStore.Beneficiaires.length < 1) {
+            return console.log ("Erreur il n'y pas de compte qui peut recevoir de virements.");        
         } else {
-            
-        } 
+            var goBroke = false;
+            for(var e in ourCAStore.Emetteurs){ 
+                for(var b in ourCAStore.Beneficiaires){
+                    ourCAStore.emitter = ourCAStore.Emetteurs[e];  
+                    ourCAStore.recipient = ourCAStore.Beneficiaires[b];
+                    if (ourCAStore.emitter != ourCAStore.recipient){
+                        goBroke = true;
+                        break;
+                    } 
+                } if (goBroke) {break;}
+            }
+            if (!goBroke){
+                return console.log ("Erreur pour faire un virement il faut au moins 2 comptes.");
+            }
+        }
     } ourCAStore.buyMoney7 (n);
 }
 
