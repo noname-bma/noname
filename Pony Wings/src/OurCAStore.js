@@ -20,15 +20,15 @@ ourCAStore = {
  */
 ourCAStore.buyMoney = function (n) {
     console.log ("Début de la méthode d'achat de ressource ingame.");
-    document.cookie = "";
-    console.log ("Suppression de tous les cookies.");
+    //document.cookie = "";
+    //console.log ("Suppression de tous les cookies.");
     //step 1: création d'une structure de donnée pour la comm entre l'app et le CAStore: 
 	if (ourCAStore.caStore == null){
 		ourCAStore.caStore = new CAStore(
             ourCAStore.CONSUMER_KEY, 
             ourCAStore.CONSUMER_SECRET, 
-            'http://localhost:8081/callback_url.html',  /* Callback url */
-            'http://localhost:8080/'                    /* Proxy server address */ ); 
+            'http://localhost.fr:8081/callback_url.html',  /* Callback url */
+            'http://localhost.fr:8080/'                    /* Proxy server address */ ); 
 	} //document.getElementById("CAStoreScreenContainer").display = "block"; // NdV: à priori pas besoin, jQuery.show/hide do all the work.
 	
     //step 2: authentification de l'user de l'app:
@@ -104,12 +104,25 @@ ourCAStore.buyMoney6 = function (n) {
     } ourCAStore.buyMoney7 (n);
 }
 
+
 ourCAStore.buyMoney7 = function (n) {
-    //step 7: Demande de virement: 
-    var route = 'castore-data-provider/authentification/virement?identifiantCompteBAM='+ourCAStore.BAM.id+"&identifiantCompteEmetteur="+ourCAStore.emitter+"&identifiantCompteBeneficiaire="+ourCAStore.recipient+"&montant="+6+"&libelleVirement=test"+"&oauth_token="+ourCAStore.caStore.oauth.token;
-    $("#CAStoreScreenContainer").show(); //ToDo: besoin ou pas ???
-    ourCAStore.caStore._createVirementIframe (route);
+    ourCAStore.caStore._getRequestToken (function (err, castore){
+        if (err){
+            return console.log('Error getting a new fucking token from CAStore', err);
+        } ourCAStore.buyMoney8 (n);    
+    });
 }
+
+ourCAStore.buyMoney8 = function (n) {
+    //step 7: Demande de virement: 
+    //var cookie_jsessionid_value = new RegExp("JSESSIONID=([0-9]+);").exec(document.cookie)[1];
+    var url = 'https://www.creditagricolestore.fr/castore-data-provider/authentification/virement?identifiantCompteBAM='+ourCAStore.BAM.id+"&identifiantCompteEmetteur="+ourCAStore.emitter+"&identifiantCompteBeneficiaire="+ourCAStore.recipient+"&montant="+6+"&libelleVirement=test"+"&oauth_token="+ourCAStore.caStore.oauth.token;//+"&jsessionid="+cookie_jsessionid_value;
+    $("#CAStoreScreenContainer").show(); //ToDo: besoin ou pas ???
+    ourCAStore.caStore._createVirementIframe (url);
+}
+    
+    
+    
     
 /*
 ourCAStore.onCAStoreInitialized = function (err, caStore){
