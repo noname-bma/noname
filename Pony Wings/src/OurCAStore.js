@@ -106,21 +106,20 @@ ourCAStore.buyMoney6 = function (n) {
 
 
 ourCAStore.buyMoney7 = function (n) {
-    ourCAStore.caStore._getRequestToken (function (err, castore){
-        if (err){
-            return console.log('Error getting a new fucking token from CAStore', err);
-        } ourCAStore.buyMoney8 (n);    
-    });
+    $("#CAStoreScreenContainer").show(); 
+    ourCAStore.caStore.getTransferIFrame ({
+            BAMId: ourCAStore.caStore.session.BAMId,
+            emitterId: ourCAStore.emitter,
+            receiverId: ourCAStore.recipient,
+            title: 'Test transfer - ' + new Date().toLocaleString(),
+            amount: 42
+        },
+        $("#CAStoreScreenContainer")[0],
+        function(err, iframe){
+            console.log('Transfer iframe:', iframe);
+        });
 }
 
-ourCAStore.buyMoney8 = function (n) {
-    //step 7: Demande de virement: 
-    //var cookie_jsessionid_value = new RegExp("JSESSIONID=([0-9]+);").exec(document.cookie)[1];
-    var url = 'https://www.creditagricolestore.fr/castore-data-provider/authentification/virement?identifiantCompteBAM='+ourCAStore.BAM.id+"&identifiantCompteEmetteur="+ourCAStore.emitter+"&identifiantCompteBeneficiaire="+ourCAStore.recipient+"&montant="+6+"&libelleVirement=test"+"&oauth_token="+ourCAStore.caStore.oauth.token;//+"&jsessionid="+cookie_jsessionid_value;
-    $("#CAStoreScreenContainer").show(); //ToDo: besoin ou pas ???
-    ourCAStore.caStore._createVirementIframe (url);
-}
-    
     
     
     

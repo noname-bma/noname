@@ -2,6 +2,9 @@ var CAStore = (function(){
 
     var SERVER_BASE_URL = 'https://www.creditagricolestore.fr/';
     var USERS_BASE_ROUTE = 'castore-data-provider/rest/V1/utilisateurs/';
+    var logger = {
+        log: function(){/* no-op*/}
+    };
 
     function CAStore(consumerKey, consumerSecret, callbackURL, proxy){
         this.consumer = {
@@ -12,7 +15,7 @@ var CAStore = (function(){
         this.callbackURL = callbackURL;
 
         this.oauth = {
-            key: null,
+            token: null,
             secret: null,
             verifier: null
         };
@@ -33,7 +36,6 @@ var CAStore = (function(){
             PUT: this.PUTWithSession.bind(this),
             DELETE: this.DELETEWithSession.bind(this)
         };
-
     }
 
     CAStore.prototype = {
@@ -43,7 +45,10 @@ var CAStore = (function(){
         proxy: null,
         request: null,
         session: null,
-        DOMElement: null
+        DOMElement: null,
+        set logger(value){
+            logger = value;
+        }
     };
 
     /* -------------------------------------------- Initialization -------------------------------------------- */
@@ -54,32 +59,38 @@ var CAStore = (function(){
             throw new Error('Target DOM Element must be set');
         this.DOMElement = DOMElement;
         this._getRequestToken(onRequestTokenObtained);
+        logger.log('init()', 'proxy:' + this.proxy);
+        logger.log('Initializing request token');
 
         function onRequestTokenObtained(err, self){
+            logger.log('request token:', 'error: ' + err, self.request.token);
             if (err)
                 return (callback)? callback(err) : null;
             return self._createAuthIframe(onAuthenticationObtained);
-            //return self._getAuthIframe(onAuthenticationObtained);
         }
 
         function onAuthenticationObtained(err, self){
+            logger.log('Authenticated');
             if (err)
                 return (callback)? callback(err) : null;
             return self._getAccessToken(onAccessTokenObtained);
         }
 
         function onAccessTokenObtained(err, self){
+            logger.log('Access token:', 'error: ' + err, self.oauth.token);
             if (err)
                 return (callback)? callback(err) : null;
             return self._getSession(onSessionObtained);
         }
 
         function onSessionObtained(err, self){
+            logger.log('Session:',  'error: ' + err, self.session.userId);
             return (callback)? callback(err, self) : null;
         }
     };
 
     CAStore.prototype.import = function(toImport, callback){
+        logger.log('import()', 'proxy:' + this.proxy);
         this.oauth = toImport.oauth;
         this.request = toImport.request;
         this.session.userId = null;
@@ -94,8 +105,7 @@ var CAStore = (function(){
         };
     };
 
-    CAStore.prototype._getRequestToken = function(callback){
-        var self = this;
+    CAStore.prototype.getNewRequestToken = function(callback){
         var descriptor =  this.createDescriptor('POST',
             'castore-oauth/resources/1/oauth/get_request_token',
             {
@@ -106,19 +116,63 @@ var CAStore = (function(){
             {
                 tokenSecret: null
             });
-        var req = this.createRequest(descriptor);//, {"Content-Type":'application/x-www-form-urlencoded'});
-        this.sendRequest(req, null, onRequestTokenObtained);
+        this.sendRequest(this.createRequest(descriptor), null, onRequestTokenObtained);
 
         function onRequestTokenObtained(err, response){
-            if (err){
+            if (callback)
+                return (err || !response)? callback(err) : callback(null, responseStringToMap(response.response));
+        }
+    };
+
+    CAStore.prototype.getTransferIFrame = function(params, DOMElement, callback){
+        if (!DOMElement)
+            throw new Error('Missing DOMElement');
+        ['BAMId','emitterId','receiverId', 'title', 'amount']
+            .forEach(ensureParamInParams);
+        var self = this;
+        this.getNewRequestToken(onNewRequestTokenObtained);
+
+        function ensureParamInParams(paramName){
+            if (!params[paramName])
+                throw new Error('Missing parameter ' + paramName);
+        }
+
+        function onNewRequestTokenObtained(err, response){
+            if (err)
                 return (callback)? callback(err) : null;
-            }
+            var url = 'https://www.creditagricolestore.fr/castore-data-provider/authentification/virement'
+                + '?identifiantCompteBAM=' + params.BAMId
+                + '&identifiantCompteEmetteur=' + params.emitterId
+                + '&identifiantCompteBeneficiaire=' + params.receiverId
+                + '&libelleVirement=' + encodeURI(params.title)
+                + '&montant=' + params.amount
+                + '&oauth_token=' + response.oauth_token;
+
+            var iframe = document.createElement('iframe');
+            iframe.setAttribute('src', url);
+            DOMElement.appendChild(iframe);
+
+            if (callback)
+                callback(null, iframe);
+        }
+    };
+
+    CAStore.prototype._getRequestToken = function(callback){
+        var self = this;
+        var descriptor =  this.createDescriptor('POST',
+            'castore-oauth/resources/1/oauth/get_request_token',
+            { oauth_callback: this.callbackURL });
+        this.sendRequest(this.createRequest(descriptor), null, onRequestTokenObtained);
+
+        function onRequestTokenObtained(err, response){
+            if (err)
+                return (callback)? callback(err) : null;
+
             response = responseStringToMap(response.response);
             self.request.token = response.oauth_token;
             self.request.secret = response.oauth_token_secret;
-            if (callback){
+            if (callback)
                 callback(null, self);
-            }
         }
     };
 
@@ -128,98 +182,27 @@ var CAStore = (function(){
         iframe.setAttribute('src', 'https://www.creditagricolestore.fr/castore-data-provider/authentification/?0&oauth_token=' + this.request.token);
         iframe.addEventListener('load', onIframeLoaded);
         this.DOMElement.appendChild(iframe);
-        //  //  //  //
+
         function onIframeLoaded(){
             var url;
             try {
                 url = iframe.contentWindow.location.href;
-            } catch(exception){}
-            if (!url || url.indexOf(self.callbackURL) < 0){
+                logger.log('URL changed', url);
+            }
+            catch(exception){
+
+            }
+            if (!url || url.indexOf(self.callbackURL) < 0)
                 return;
-            } var response = responseStringToMap(url);
+            logger.log('Intercepting url change');
+            var response = responseStringToMap(url);
+
             //TODO: check if token hasn't changed
             self.request.verifier = response.oauth_verifier;
             if (callback)
                 callback(null, self);
         }
     };
-    
-    CAStore.prototype._getAuthIframe = function(callback){
-        var self = this;
-        var iframe = $("#authScreen")[0];
-        $("#authScreen").show ();
-        iframe.setAttribute('src', 'https://www.creditagricolestore.fr/castore-data-provider/authentification/?0&oauth_token=' + this.request.token);
-        iframe.addEventListener('load', onIframeLoaded);
-        //  //  //  //
-        function onIframeLoaded(){
-            var url;
-            try {
-                url = iframe.contentWindow.location.href;
-            } catch(exception){}
-            if (!url || url.indexOf(self.callbackURL) < 0){
-                return;
-            } var response = responseStringToMap(url);
-            //TODO: check if token hasn't changed
-            self.request.verifier = response.oauth_verifier;
-            if (callback){
-                callback(null, self);
-            }
-        }
-    };
-    
-    
-    /**
-     *
-     * Méthode pour faire valider un virement par l'utilisateur. 
-     * 
-     **/
-    CAStore.prototype._createVirementIframe = function(url){
-        var self = this;
-        var iframe = document.createElement('iframe');
-        iframe.setAttribute('src', url);
-        iframe.addEventListener('load', onIframeLoaded);
-        this.DOMElement.appendChild(iframe);
-        //  //  //  //
-        function onIframeLoaded(){
-            var url;
-            try {
-                url = iframe.contentWindow.location.href;
-            } catch(exception){}
-            if (!url || url.indexOf(self.callbackURL) < 0) {
-                return;
-            } var response = responseStringToMap(url);
-            //TODO: check if token hasn't changed
-            self.request.verifier = response.oauth_verifier;
-        }
-    };
-    
-    
-    /**
-     *
-     * Méthode pour faire valider un virement par l'utilisateur. 
-     * 
-     **/
-    CAStore.prototype._getVirementIframe = function(url){
-        var self = this;
-        var iframe = $("#transferScreen")[0];  
-        $("#transferScreen").show(); 
-        iframe.setAttribute('src', url);
-        iframe.addEventListener('load', onIframeLoaded);
-        //  //  //  //
-        function onIframeLoaded(){
-            var url;
-            try {
-                url = iframe.contentWindow.location.href;
-            } catch(exception){}
-            if (!url || url.indexOf(self.callbackURL) < 0) {
-                return;
-            } var response = responseStringToMap(url);
-            //TODO: check if token hasn't changed
-            self.request.verifier = response.oauth_verifier;
-        }
-    };
-    
-    
 
     CAStore.prototype._getAccessToken = function(callback){
         var self = this;
@@ -227,6 +210,7 @@ var CAStore = (function(){
         this.sendRequest(this.createRequest(descriptor), null, onAccessTokenObtained);
 
         function onAccessTokenObtained(err, response){
+            logger.log('Access token obtained?');
             if (err)
                 return (callback)? callback(err) : null;
             response = responseStringToMap(response.response);
@@ -321,7 +305,7 @@ var CAStore = (function(){
     function parseResponseToJSON(response){
         var data = response.response;
         try {
-            data = JSON.parse(data);
+            data = JSON.parse(stringifyIds(data));
         }
         catch(error){}
 
@@ -330,6 +314,10 @@ var CAStore = (function(){
             status: response.status,
             data: data
         };
+
+        function stringifyIds(data){
+            return data.replace(/("id"\s*\:\s*)([0-9]+)/g, '$1"$2"');
+        }
     }
 
     CAStore.prototype.query = function(method, route, headers, payload, callback){
@@ -340,7 +328,7 @@ var CAStore = (function(){
 
     /* ----------------------------------------- OAuth headers injection ----------------------------------------- */
 
-    CAStore.prototype.createDescriptor = function(method, route, parameters){
+    CAStore.prototype.createDescriptor = function(method, route, parameters, accessor){
         var descriptor = {
             method: method,
             action: SERVER_BASE_URL + route,
@@ -351,15 +339,22 @@ var CAStore = (function(){
                 oauth_verifier: this.request.verifier
             }
         };
-
         if (parameters)
             Object.getOwnPropertyNames(parameters)
-                .reduce(addParameter, descriptor.parameters);
+                .reduce(overrideProperty, descriptor.parameters);
 
-        OAuth.completeRequest(descriptor, {consumerSecret: this.consumer.secret, tokenSecret: this.oauth.secret || this.request.secret});
+        var requestAccessor = {
+            consumerSecret: this.consumer.secret,
+            tokenSecret: this.oauth.secret || this.request.secret
+        };
+        if (accessor)
+            Object.getOwnPropertyNames(accessor)
+                .reduce(overrideProperty, requestAccessor);
+
+        OAuth.completeRequest(descriptor, requestAccessor);
         return descriptor;
 
-        function addParameter(result, parameterName){
+        function overrideProperty(result, parameterName){
             result[parameterName] = parameters[parameterName];
             return result;
         }
@@ -414,7 +409,6 @@ var CAStore = (function(){
                 callback('Request canceled', event.currentTarget);
         }
     };
-
 
     function getAuthorizationHeader(parameters){
         return OAuth.getParameterList(parameters)
